@@ -69,3 +69,30 @@ if [[ $CONTENT == *'"found":false'* ]]
 then
     curl -XPUT "http://elasticsearch:9200/.kibana/visualization/Top-5-used-service-split-daily" -d "`cat top_5_used_service_split_daily.json`";
 fi
+
+
+CONTENT=`curl -XGET "http://elasticsearch:9200/.kibana/visualization/Split_bars_hourly_top_productFamily"`;
+if [[ $CONTENT == *'"found":false'* ]]
+then
+    curl -XPUT "http://elasticsearch:9200/.kibana/visualization/Split_bars_hourly_top_productFamily" -d "`cat Split_bars_hourly_top_productFamily.json`";
+fi
+
+CONTENT=`curl -XGET "http://elasticsearch:9200/.kibana/visualization/Split_bars_daily_top_storage"`;
+if [[ $CONTENT == *'"found":false'* ]]
+then
+    curl -XPUT "http://elasticsearch:9200/.kibana/visualization/Split_bars_daily_top_storage" -d "`cat Split_bars_daily_top_storage.json`";
+fi
+
+
+CONTENT=`curl -XGET "http://elasticsearch:9200/.kibana/visualization/Split_bars_daily_top_ProductName"`;
+if [[ $CONTENT == *'"found":false'* ]]
+then
+    curl -XPUT "http://elasticsearch:9200/.kibana/visualization/Split_bars_daily_top_ProductName" -d "`cat Split_bars_daily_top_ProductName.json`";
+fi
+
+
+CONTENT=`curl -XGET "http://elasticsearch:9200/.kibana/visualization/Split_bars_daily_top_productFamily"`;
+if [[ $CONTENT == *'"found":false'* ]]
+then
+    curl -XPUT "http://elasticsearch:9200/.kibana/visualization/Split_bars_daily_top_productFamily" -d "`cat top_5_used_service_split_daily.json`";
+fi
