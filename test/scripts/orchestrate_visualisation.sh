@@ -94,5 +94,5 @@ fi
 CONTENT=`curl -XGET "http://elasticsearch:9200/.kibana/visualization/Split_bars_daily_top_productFamily"`;
 if [[ $CONTENT == *'"found":false'* ]]
 then
-    curl -XPUT "http://elasticsearch:9200/.kibana/visualization/Split_bars_daily_top_productFamily" -d "`cat top_5_used_service_split_daily.json`";
+    curl -XPUT "http://elasticsearch:9200/.kibana/visualization/Split_bars_daily_top_productFamily" -d "`cat Split_bars_daily_top_productFamily.json`";
 fi
