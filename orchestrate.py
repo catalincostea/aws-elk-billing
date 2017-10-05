@@ -1,4 +1,5 @@
 import os, sys
+import time
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 #pwd = os.path.dirname(__file__)
 '''
@@ -45,5 +46,5 @@ if __name__ == '__main__':
 
     # /sbin/init is not working so used this loop to keep the docker up, Have to change it!
     while(True):
-        pass
+        time.sleep(0.2)
 
