@@ -1,5 +1,5 @@
-FROM debian
-#FROM ubuntu:14.04.4
+#FROM debian
+FROM ubuntu:14.04.4
 
 # gcc for cgo
 RUN apt-get update && apt-get install -y --no-install-recommends \
