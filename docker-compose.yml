@@ -52,3 +52,8 @@ services:
     - 9300:9300
     environment:
       ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    logging:
+        driver: "json-file"
+        options:
+            max-file: 3
+            max-size: 20m
