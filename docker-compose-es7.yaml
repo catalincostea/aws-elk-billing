@@ -1,0 +1,77 @@
+#Run docker container in the background
+#docker-compose up -d
+version: '2'
+services:
+  aws-elk-billing:
+    build: .
+    environment:
+    - DEBIAN_FRONTEND=noninteractive
+    - TERM=xterm
+    - ENV=prod
+    volumes:
+    - .:/aws-elk-billing
+    depends_on:
+    - kibana
+    - logstash
+    - elasticsearch
+    links:
+    - kibana:kibana
+    - logstash:logstash
+    - elasticsearch:elasticsearch
+    env_file:
+    - prod.env
+    command: bash -c "python -u /aws-elk-billing/orchestrate.py"
+
+  logstash:
+    #image: logstash:5-alpine
+    image: logstash:7.6.2
+    ports:
+    - 5140:5140
+    depends_on:
+    - elasticsearch
+    links:
+    - elasticsearch:elasticsearch
+    volumes:
+    - ./logstash.conf:/logstash.conf
+    command: "logstash -f /logstash.conf"
+    networks:
+      - docker-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.6.2
+    environment:
+      SERVER_NAME: kibana.waterford.org
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+    - 5601:5601
+    depends_on:
+    - elasticsearch
+    links:
+    - elasticsearch:elasticsearch
+    networks:
+      - docker-network
+
+  elasticsearch:
+    #image: elasticsearch:5-alpine
+    #image: elasticsearch:7.5.0
+    image: elasticsearch:7.6.2
+    #network_mode: bridge
+    ports:
+    - 9200:9200
+    - 9300:9300
+    environment:
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - discovery.type=single-node
+      #- ELASTIC_PASSWORD=ELASTIC_PASSWORD
+      #- xpack.security.enabled=true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "3"
+    networks:
+      - docker-network
+
+networks:
+  docker-network:
+    driver: bridge
