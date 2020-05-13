@@ -21,6 +21,9 @@ services:
     env_file:
     - prod.env
     command: bash -c "python -u /aws-elk-billing/orchestrate.py"
+    networks:
+      - docker-network
+
 
   logstash:
     #image: logstash:5-alpine
