@@ -3,7 +3,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__)))
 '''
 added head source directory in path for import from any location and relative testing and pwd for open() relative files
 '''
-import pyelasticsearch as pyes
+#import pyelasticsearch as pyes
+import elasticsearch as pyes
 import boto3
 import time
 import socket
@@ -30,7 +31,7 @@ class Tools:
         logstash_socket = socket.socket()
         kibana_socket = socket.socket()
         connection_ok = False
-        for _ in range(15):
+        for _ in range(30):
             try:
                 print 'Checking if Elasticsearch container has started to listen to 9200'
                 elasticsearch_socket.connect(('elasticsearch', 9200))
@@ -40,9 +41,9 @@ class Tools:
             except Exception as e:
                 print(
                     "Something's wrong with Elasticsearch. Exception is %s" % (e))
-                print 'I will retry after 4 seconds'
+                print 'I will retry after 10 seconds'
                 connection_ok = True
-                time.sleep(4)
+                time.sleep(10)
 
         for _ in range(15):
             try:
@@ -53,9 +54,9 @@ class Tools:
                 break
             except Exception as e:
                 print("Something's wrong with Logstash. Exception is %s" % (e))
-                print 'I will retry after 4 seconds'
+                print 'I will retry after 10 seconds'
                 connection_ok = True
-                time.sleep(4)
+                time.sleep(10)
 
         for _ in range(15):
             try:
@@ -66,9 +67,9 @@ class Tools:
                 break
             except Exception as e:
                 print("Something's wrong with Kibana. Exception is %s" % (e))
-                print 'I will retry after 4 seconds'
+                print 'I will retry after 10 seconds'
                 connection_ok = True
-                time.sleep(4)
+                time.sleep(10)
 
         elasticsearch_socket.close()
         logstash_socket.close()
@@ -109,12 +110,17 @@ class Tools:
             s3_dir_names.append(keys['Prefix'].split('/')[-2])
 
         s3_dir_names.sort()
-        es = pyes.ElasticSearch('http://elasticsearch:9200')
-        index_list = es.get_mapping('aws-billing*').keys()
+        #es = pyes.ElasticSearch('http://elasticsearch:9200')
+        es = pyes.Elasticsearch('http://elasticsearch:9200')
+        #index_list = es.get_mapping('aws-billing*').keys()
+        index_list = es.indices.get_alias('aws-billing*').keys()
         index_time = []
         for i in index_list:
+            print(i)
             if i:
-                index_time.append(es.search(index=i, size=1, query={"query": {"match_all": {}}})[
+                #index_time.append(es.search(index=i, size=1, query={"query": {"match_all": {}}})[
+                #                  'hits']['hits'][0]['_source']['@timestamp'])
+                index_time.append(es.search(index=i, size=1, body={"query": {"match_all": {}}})[
                                   'hits']['hits'][0]['_source']['@timestamp'])
 
         index_time.sort(reverse=True)
