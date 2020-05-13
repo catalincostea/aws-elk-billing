@@ -204,26 +204,26 @@ class Tools:
             print 'AWS Billing report sucessfully parsed and indexed in Elasticsearch via Logstash :)'
 
     def index_kibana(self):
-        # Index the search mapping for Discover to work 
-        status = subprocess.Popen(
-                ['(cd /aws-elk-billing/kibana; bash orchestrate_search_mapping.sh)'],
-                shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if status.wait() != 0:
-            print 'The Discover Search mapping failed to be indexed to .kibana index in Elasticsearch'
-            sys.exit(1)
-        else:
-            print 'The Discover Search mapping sucessfully indexed to .kibana index in Elasticsearch, Kept intact if user already used it :)'
+        # # Index the search mapping for Discover to work
+        # status = subprocess.Popen(
+        #         ['(cd /aws-elk-billing/kibana; bash orchestrate_search_mapping.sh)'],
+        #         shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # if status.wait() != 0:
+        #     print 'The Discover Search mapping failed to be indexed to .kibana index in Elasticsearch'
+        #     sys.exit(1)
+        # else:
+        #     print 'The Discover Search mapping sucessfully indexed to .kibana index in Elasticsearch, Kept intact if user already used it :)'
 
 
-        # Index Kibana dashboard
-        status = subprocess.Popen(
-            ['(cd /aws-elk-billing/kibana; bash orchestrate_dashboard.sh)'],
-            shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        if status.wait() != 0:
-            print 'AWS-Billing-DashBoard default dashboard failed to indexed to .kibana index in Elasticsearch'
-            sys.exit(1)
-        else:
-            print 'AWS-Billing-DashBoard default dashboard sucessfully indexed to .kibana index in Elasticsearch, Kept intact if user already used it :)'
+        # # Index Kibana dashboard
+        # status = subprocess.Popen(
+        #     ['(cd /aws-elk-billing/kibana; bash orchestrate_dashboard.sh)'],
+        #     shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # if status.wait() != 0:
+        #     print 'AWS-Billing-DashBoard default dashboard failed to indexed to .kibana index in Elasticsearch'
+        #     sys.exit(1)
+        # else:
+        #     print 'AWS-Billing-DashBoard default dashboard sucessfully indexed to .kibana index in Elasticsearch, Kept intact if user already used it :)'
 
         # Index Kibana visualization
         status = subprocess.Popen(

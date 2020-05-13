@@ -41,7 +41,8 @@ services:
       - docker-network
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.6.2
+    #image: docker.elastic.co/kibana/kibana:7.6.2
+    image: kibana:7.6.2
     environment:
       SERVER_NAME: kibana.waterford.org
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
