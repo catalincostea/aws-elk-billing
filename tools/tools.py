@@ -61,7 +61,7 @@ class Tools:
                 kibana_socket.connect(('kibana', 5601))
                 print 'Great Kibana is listening on 5601 - wait one min for kibana to auto-configure'
                 connection_ok = True
-                time.sleep(60)
+                time.sleep(120)
                 break
             except Exception as e:
                 print("%s .. retry in 10 seconds" % (e))
