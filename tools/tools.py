@@ -14,7 +14,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__)))
 added head source directory in path for import from any location and relative testing and pwd for open() relative files
 '''
 
-
++curl -X POST "kibana:5601/api/saved_objects/_import" -H "kbn-xsrf: true" -H 'Content-Type: application/json' --form file=@export.ndjson
 class Tools:
 
     def __init__(self, s3=None):
@@ -31,8 +31,8 @@ class Tools:
         logstash_socket = socket.socket()
         kibana_socket = socket.socket()
         connection_ok = False
+        print('Checking if Elasticsearch container has started to listen to 9200')
         for _ in range(40):
-            print('Checking if Elasticsearch container has started to listen to 9200')
             try:    
                 elasticsearch_socket.connect(('elasticsearch', 9200))
                 print 'Great Elasticsearch is listening on 9200, 9300 :)'
@@ -43,9 +43,9 @@ class Tools:
                 connection_ok = True
                 time.sleep(10)
 
+        print('Checking if Logstash container has started to listen to 5140')
         for _ in range(30):
-            print('Checking if Logstash container has started to listen to 5140')
-            try:
+             try:
                 logstash_socket.connect(('logstash', 5140))
                 print 'Great Logstash is listening on 5140 :)'
                 connection_ok = True
@@ -55,8 +55,8 @@ class Tools:
                 connection_ok = True
                 time.sleep(10)
 
+        print('Checking if Kibana container has started to listen to 5601')
         for _ in range(15):
-            print('Checking if Kibana container has started to listen to 5601')
             try:
                 kibana_socket.connect(('kibana', 5601))
                 print 'Great Kibana is listening on 5601 - wait one min for kibana to auto-configure'
