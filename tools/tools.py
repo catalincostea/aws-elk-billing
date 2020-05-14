@@ -45,7 +45,7 @@ class Tools:
                 connection_ok = True
                 time.sleep(10)
 
-        for _ in range(15):
+        for _ in range(30):
             try:
                 print 'Checking if Logstash container has started to listen to 5140'
                 logstash_socket.connect(('logstash', 5140))
