@@ -14,7 +14,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__)))
 added head source directory in path for import from any location and relative testing and pwd for open() relative files
 '''
 
-+curl -X POST "kibana:5601/api/saved_objects/_import" -H "kbn-xsrf: true" -H 'Content-Type: application/json' --form file=@export.ndjson
+
 class Tools:
 
     def __init__(self, s3=None):
