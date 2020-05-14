@@ -1,6 +1,7 @@
 #!/bin/bash
 
-curl -X POST "kibana:5601/api/saved_objects/_import" -H "kbn-xsrf: true" --form file=@export.ndjson | python -m json.tool
+curl -X POST "kibana:5601/api/saved_objects/_import" -H "kbn-xsrf: true" -H 'Content-Type: application/json' --form file=@export.ndjson
+# curl -X POST "kibana:5601/api/saved_objects/_import" -H "kbn-xsrf: true" --form file=@export.ndjson | python -m json.tool
 echo Migrate to version elk 7 and import all once. Previous imports are reduntant or deprecated.
 exit
 
