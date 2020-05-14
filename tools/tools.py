@@ -62,8 +62,9 @@ class Tools:
             try:
                 print 'Checking if Kibana container has started to listen to 5601'
                 kibana_socket.connect(('kibana', 5601))
-                print 'Great Kibana is listening on 5601 :)'
+                print 'Great Kibana is listening on 5601 - wait one min for kibana to auto-configure'
                 connection_ok = True
+                time.sleep(60)
                 break
             except Exception as e:
                 print("Something's wrong with Kibana. Exception is %s" % (e))
