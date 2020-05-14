@@ -45,7 +45,7 @@ class Tools:
 
         print('Checking if Logstash container has started to listen to 5140')
         for _ in range(30):
-             try:
+            try:
                 logstash_socket.connect(('logstash', 5140))
                 print 'Great Logstash is listening on 5140 :)'
                 connection_ok = True
