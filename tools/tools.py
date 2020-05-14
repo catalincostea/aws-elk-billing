@@ -31,44 +31,40 @@ class Tools:
         logstash_socket = socket.socket()
         kibana_socket = socket.socket()
         connection_ok = False
-        for _ in range(30):
-            try:
-                print 'Checking if Elasticsearch container has started to listen to 9200'
+        for _ in range(40):
+            print('Checking if Elasticsearch container has started to listen to 9200')
+            try:    
                 elasticsearch_socket.connect(('elasticsearch', 9200))
                 print 'Great Elasticsearch is listening on 9200, 9300 :)'
                 connection_ok = True
                 break
             except Exception as e:
-                print(
-                    "Something's wrong with Elasticsearch. Exception is %s" % (e))
-                print 'I will retry after 10 seconds'
+                print("%s .. retry in 10 seconds" % (e))
                 connection_ok = True
                 time.sleep(10)
 
-        for _ in range(40):
+        for _ in range(30):
+            print('Checking if Logstash container has started to listen to 5140')
             try:
-                print 'Checking if Logstash container has started to listen to 5140'
                 logstash_socket.connect(('logstash', 5140))
                 print 'Great Logstash is listening on 5140 :)'
                 connection_ok = True
                 break
             except Exception as e:
-                print("Something's wrong with Logstash. Exception is %s" % (e))
-                print 'I will retry after 10 seconds'
+                print("%s .. retry in 10 seconds" % (e))
                 connection_ok = True
                 time.sleep(10)
 
         for _ in range(15):
+            print('Checking if Kibana container has started to listen to 5601')
             try:
-                print 'Checking if Kibana container has started to listen to 5601'
                 kibana_socket.connect(('kibana', 5601))
                 print 'Great Kibana is listening on 5601 - wait one min for kibana to auto-configure'
                 connection_ok = True
                 time.sleep(60)
                 break
             except Exception as e:
-                print("Something's wrong with Kibana. Exception is %s" % (e))
-                print 'I will retry after 10 seconds'
+                print("%s .. retry in 10 seconds" % (e))
                 connection_ok = True
                 time.sleep(10)
 
